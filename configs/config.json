@@ -1,0 +1,164 @@
+{
+  "tools": [{
+      "name": "FamBot Help",
+      "description": "Show this message",
+      "help": "fambot help",
+      "trigger": "help",
+      "location": "./",
+      "setup": "echo \"FamBot is a white-listed command injection tool for slack... written in go. Add this bot to the channel that you wish to carry out commands, and type \\`fambot help\\` to see this message.\nRun \\`fambot <command> help\\` to see whitelist of parameters.\nPossible \\`<commands>\\`:\"",
+      "command": "echo \"\\`\\`\\`\" && cat config.json | jq -r -c '.tools[] | \"\\(.help) - \\(.description)\"' && echo \"\\`\\`\\`\"",
+      "parameters": [],
+      "log": false,
+      "ephemeral": false,
+      "response": "text",
+      "permissions": ["all"]
+    },{
+      "name": "Get User/Channel Info",
+      "description": "Get information about the user and channel command is being run from",
+      "help": "fambot info",
+      "trigger": "info",
+      "location": "./vendor/bashbot-scripts",
+      "setup": "echo \"\"",
+      "command": "./getBasicInfo.sh",
+      "parameters": [],
+      "log": false,
+      "ephemeral": false,
+      "response": "code",
+      "permissions": ["all"]
+    },{
+      "name": "Get User Info",
+      "description": "Use slack api to get user information",
+      "help": "fambot user-info [user]",
+      "trigger": "user-info",
+      "location": "./vendor/bashbot-scripts",
+      "setup": "echo \"\"",
+      "command": "./slackApi.sh --endpoint users.info --user-id $(./slackApi.sh --get-id-from-tag \"${user}\") --output json",
+      "parameters": [
+        {
+          "name": "user",
+          "allowed": [],
+          "description": "tag a slack user",
+          "source": "./slackApi.sh --endpoint users.list --output idtags"
+        }
+      ],
+      "log": false,
+      "ephemeral": false,
+      "response": "code",
+      "permissions": ["all"]
+    },{
+      "name": "List Commands",
+      "description": "List all of the possible commands stored in fambot",
+      "help": "fambot list-commands",
+      "trigger": "list-commands",
+      "location": "./",
+      "setup": "echo \"\"",
+      "command": "cat config.json | jq -r '.tools[] | .trigger' | sort",
+      "parameters": [],
+      "log": false,
+      "ephemeral": false,
+      "response": "code",
+      "permissions": ["all"]
+    },{
+      "name": "Describe Command",
+      "description": "Show the json object for a specific command",
+      "help": "fambot describe [command]",
+      "trigger": "describe",
+      "location": "./vendor/bashbot-scripts",
+      "setup": "echo \"\"",
+      "command": "./describeCommand.sh ../../config.json ${command}",
+      "parameters": [
+        {
+          "name": "command",
+          "allowed": [],
+          "description": "a command to describe ('fambot list-commands')",
+          "source": "cat ../../config.json | jq -r '.tools[] | .trigger'"
+        }],
+      "log": false,
+      "ephemeral": false,
+      "response": "code",
+      "permissions": ["all"]
+    },{
+      "name": "Cards Against Humanity",
+      "description": "Picks a random question and answer from a list.",
+      "help": "fambot cah [random|question|answer]",
+      "trigger": "cah",
+      "location": "./vendor/bashbot-scripts",
+      "setup": "echo \"\"",
+      "command": "./cardsAgainstHumanity.sh --action ${action} --questions-file ../against-humanity/questions.txt --answers-file ../against-humanity/answers.txt",
+      "parameters": [{
+        "name": "action",
+        "allowed": ["random", "question", "answer"]
+      }],
+      "log": false,
+      "ephemeral": false,
+      "response": "text",
+      "permissions": ["all"]
+    },{
+      "name": "Martha Isms",
+      "description": "Picks a random line from a text file",
+      "help": "fambot martha",
+      "trigger": "martha",
+      "location": "./vendor/bashbot-scripts",
+      "setup": "echo \"\"",
+      "command": "./cardsAgainstHumanity.sh --action question --questions-file ../fambot-scripts/martha.txt",
+      "parameters": [],
+      "log": false,
+      "ephemeral": false,
+      "response": "text",
+      "permissions": ["all"]
+    },{
+      "name": "CAT FACTS",
+      "description": "Picks a random line from a text file",
+      "help": "fambot cat-fact",
+      "trigger": "cat-fact",
+      "location": "./vendor/bashbot-scripts",
+      "setup": "echo \"\"",
+      "command": "./cardsAgainstHumanity.sh --action question --questions-file ./cat-facts.txt",
+      "parameters": [],
+      "log": false,
+      "ephemeral": false,
+      "response": "text",
+      "permissions": ["all"]
+    },{
+      "name": "Slap User",
+      "description": "Slap a specific user with a trout gif",
+      "help": "fambot slap [user]",
+      "trigger": "slap",
+      "location": "./vendor/bashbot-scripts",
+      "setup": "echo \"\"",
+      "command": "./giphy.sh slap+trout 10",
+      "parameters": [
+        {
+          "name": "user",
+          "allowed": [],
+          "description": "tag a slack user",
+          "source": "curl -s \"https://slack.com/api/users.list?token=$SLACK_TOKEN\" | jq -r '.members[] | select(.deleted == false) | .id' | sort | sed -e 's/\\(.*\\)/<@\\1>/g'"
+        }
+      ],
+      "log": false,
+      "ephemeral": false,
+      "response": "text",
+      "permissions": ["all"]
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "FamBot scripts Scripts",
+      "source": "https://$GITHUB_TOKEN@github.com/mathew-fleisch/fambot-scripts.git",
+      "install": "git clone ${source}",
+      "setup": "echo \"\""
+    },
+    {
+      "name": "BashBot scripts Scripts",
+      "source": "https://$GITHUB_TOKEN@github.com/eaze/bashbot-scripts.git",
+      "install": "git clone ${source}",
+      "setup": "echo \"\""
+    },
+    {
+      "name": "Cards Against Humanity",
+      "source": "https://github.com/nodanaonlyzuul/against-humanity.git",
+      "install": "git clone ${source}",
+      "setup": "echo \"\""
+    }
+  ]
+}
