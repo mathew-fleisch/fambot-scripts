@@ -13,6 +13,32 @@
       "response": "text",
       "permissions": ["all"]
     },{
+      "name": "Update configs",
+      "description": "Pulls a fresh config file from github",
+      "help": "fambot update",
+      "trigger": "update",
+      "location": "./vendor/fambot-scripts",
+      "setup": "echo \"Pulling configs from https://github.com/mathew-fleisch/fambot-scripts\"",
+      "command": "git pull origin master && cp configs/*.json ../../.",
+      "parameters": [],
+      "log": false,
+      "ephemeral": false,
+      "response": "code",
+      "permissions": ["GS1NSPWQ5"]
+    },{
+      "name": "Upgrade configs",
+      "description": "Pulls a fresh config file from github and updates dependencies",
+      "help": "fambot upgrade",
+      "trigger": "upgrade",
+      "location": "./",
+      "setup": "echo \"Pulling configs from https://github.com/mathew-fleisch/fambot-scripts\"",
+      "command": "rm -rf ./vendor/* && ./install-dependencies.sh && cp vendor/fambot-scripts/configs/*.json .",
+      "parameters": [],
+      "log": false,
+      "ephemeral": false,
+      "response": "code",
+      "permissions": ["GS1NSPWQ5"]
+    },{
       "name": "Get User/Channel Info",
       "description": "Get information about the user and channel command is being run from",
       "help": "fambot info",
