@@ -165,6 +165,19 @@
       "ephemeral": false,
       "response": "text",
       "permissions": ["all"]
+    },{
+      "name": "Coronavirus California",
+      "description": "percentage infected californians by county",
+      "help": "bashbot corona",
+      "trigger": "corona",
+      "location": "./vendor/fambot-scripts",
+      "setup": "echo \"Coronavirus infected Californians by county\" && date +\"%Y-%m-%d\" --date=\"-2 days\"",
+      "command": "./corona.sh | sort -n -r",
+      "parameters": [],
+      "log": false,
+      "ephemeral": false,
+      "response": "code",
+      "permissions": ["all"]
     }
   ],
   "dependencies": [
