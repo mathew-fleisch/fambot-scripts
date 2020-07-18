@@ -168,7 +168,7 @@
     },{
       "name": "Coronavirus California",
       "description": "percentage infected californians by county",
-      "help": "bashbot corona",
+      "help": "fambot corona",
       "trigger": "corona",
       "location": "./vendor/fambot-scripts",
       "setup": "echo \"Coronavirus infected Californians by county\" && date +\"%Y-%m-%d\" --date=\"-2 days\"",
