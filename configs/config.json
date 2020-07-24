@@ -202,7 +202,7 @@
     },
     {
       "name": "BashBot scripts Scripts",
-      "source": "https://$GITHUB_TOKEN@github.com/eaze/bashbot-scripts.git",
+      "source": "https://$GITHUB_TOKEN@github.com/draios/bashbot-scripts.git",
       "install": "git clone ${source}",
       "setup": "echo \"\""
     },
