@@ -165,20 +165,33 @@
       "ephemeral": false,
       "response": "text",
       "permissions": ["all"]
-    },{
-      "name": "Coronavirus California",
-      "description": "percentage infected californians by county",
-      "help": "fambot corona",
-      "trigger": "corona",
-      "location": "./vendor/fambot-scripts",
-      "setup": "echo \"Coronavirus infected Californians by county\" && date +\"%Y-%m-%d\" --date=\"-2 days\"",
-      "command": "./corona.sh | sort -n -r",
-      "parameters": [],
-      "log": false,
-      "ephemeral": false,
-      "response": "code",
-      "permissions": ["all"]
-    }
+    },
+        {
+            "name": "Coronavirus California",
+            "description": "percentage infected californians by county [sort: county,infected,population,percentage]",
+            "help": "bashbot corona [sort-by]",
+            "trigger": "corona",
+            "location": "./vendor/bashbot-scripts",
+            "setup": "echo \"\"",
+            "command": "./corona.sh ${sort_by}",
+            "parameters": [
+                {
+                    "name": "sort_by",
+                    "allowed": [
+                        "county",
+                        "infected",
+                        "population",
+                        "percentage"
+                    ]
+                }
+            ],
+            "log": false,
+            "ephemeral": false,
+            "response": "code",
+            "permissions": [
+                "all"
+            ]
+        }
   ],
   "dependencies": [
     {
