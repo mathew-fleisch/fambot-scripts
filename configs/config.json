@@ -165,33 +165,29 @@
       "ephemeral": false,
       "response": "text",
       "permissions": ["all"]
-    },
-        {
-            "name": "Coronavirus California",
-            "description": "percentage infected californians by county [sort: county,infected,population,percentage]",
-            "help": "bashbot corona [sort-by]",
-            "trigger": "corona",
-            "location": "./vendor/bashbot-scripts",
-            "setup": "echo \"\"",
-            "command": "./corona.sh ${sort_by}",
-            "parameters": [
-                {
-                    "name": "sort_by",
-                    "allowed": [
-                        "county",
-                        "infected",
-                        "population",
-                        "percentage"
-                    ]
-                }
-            ],
-            "log": false,
-            "ephemeral": false,
-            "response": "code",
-            "permissions": [
-                "all"
-            ]
-        }
+    }
+    ,{
+      "name": "Coronavirus California",
+      "description": "percentage infected californians by county [sort: county,infected,population,percentage]",
+      "help": "fambot corona [sort-by] [1-60]",
+      "trigger": "corona",
+      "location": "./vendor/bashbot-scripts",
+      "setup": "echo \"\"",
+      "command": "./corona.sh ${sort_by} ${limit}",
+      "parameters": [{
+        "name":"sort_by",
+        "allowed": ["county","infected","population","percentage"]
+      },{
+        "name":"limit",
+        "allowed": [],
+        "description": "any integer between 1 through 60",
+        "source": "for i in {1..60}; do echo $i; done"
+      }],
+      "log": false,
+      "ephemeral": false,
+      "response": "code",
+      "permissions": ["all"]
+    }
   ],
   "dependencies": [
     {
@@ -202,7 +198,7 @@
     },
     {
       "name": "BashBot scripts Scripts",
-      "source": "https://$GITHUB_TOKEN@github.com/draios/bashbot-scripts.git",
+      "source": "https://$GITHUB_TOKEN@github.com/eaze/bashbot-scripts.git",
       "install": "git clone ${source}",
       "setup": "echo \"\""
     },
